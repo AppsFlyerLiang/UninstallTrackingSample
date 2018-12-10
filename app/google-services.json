@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "485765251553",
+    "firebase_url": "https://uninstalltrackingsample.firebaseio.com",
+    "project_id": "uninstalltrackingsample",
+    "storage_bucket": "uninstalltrackingsample.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485765251553:android:3d76b398339fd204",
+        "android_client_info": {
+          "package_name": "com.appsflyer.liang.uninstalltrackingsample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485765251553-oko7r4p76uu4hkvtdeof09roo6l37cjd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.appsflyer.liang.uninstalltrackingsample",
+            "certificate_hash": "4c44bff27052b1e62b7ef71aa5228603a19c366b"
+          }
+        },
+        {
+          "client_id": "485765251553-njdhn2to48pljkvk6q86la7g77kll5pi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4tHjZQwElsfRbce-1h0l2MUWmHq52f9Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485765251553-njdhn2to48pljkvk6q86la7g77kll5pi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
