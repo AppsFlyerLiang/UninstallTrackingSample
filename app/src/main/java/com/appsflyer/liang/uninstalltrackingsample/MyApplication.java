@@ -12,7 +12,7 @@ public class MyApplication extends Application {
         super.onCreate();
         AppsFlyerLib.getInstance().init(BuildConfig.AF_DEV_KEY, new SimpleAppsFlyerConversionListener(), this);
         AppsFlyerLib.getInstance().setDebugLog(true);
-        AppsFlyerLib.getInstance().enableUninstallTracking("485765251553");
+        AppsFlyerLib.getInstance().enableUninstallTracking(BuildConfig.SENDER_ID);
         AppsFlyerLib.getInstance().startTracking(this);
     }
 }

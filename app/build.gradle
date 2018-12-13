@@ -9,8 +9,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        def properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def af_dev_key = properties.getProperty("af_dev_key")
         buildConfigField("String", "SENDER_ID", "\"485765251553\"")
-        buildConfigField("String", "AF_DEV_KEY", "\"SC6zv6Zb6N52vePBePs5Xo\"")
+        buildConfigField("String", "AF_DEV_KEY", "\"${af_dev_key}\"")
     }
     buildTypes {
         release {

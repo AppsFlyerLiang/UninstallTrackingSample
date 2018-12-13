@@ -21,8 +21,8 @@
 #-renamesourcefileattribute SourceFile
 -dontwarn com.appsflyer.**
 -keep class com.appsflyer.** { *; }
+-dontwarn com.android.installreferrer
 
 -dontwarn com.google.**
 -keep class com.google.** { *; }
 
--dontwarn com.android.installreferrer

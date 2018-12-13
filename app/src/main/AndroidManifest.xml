@@ -22,11 +22,19 @@
             </intent-filter>
         </activity>
 
+        <!-- Use AppsFlyer's FirebaseInstanceIdListener update FirebaseInstanceId to server -->
         <service android:name="com.appsflyer.FirebaseInstanceIdListener">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <!-- Inside MyFirebaseInstanceIdService call AppsFlyerLib.getInstance().updateServerUninstallToken() to update device token -->
+        <!--<service android:name=".fcm.MyFirebaseInstanceIdService">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
 
         <service
             android:name=".fcm.MyFirebaseMessagingService"
