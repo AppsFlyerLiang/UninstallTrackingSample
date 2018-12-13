@@ -30,7 +30,7 @@ _<root>/build.gradle_
 buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath 'com.google.gms:google-services:4.2.0**'
+        classpath 'com.google.gms:google-services:4.2.0'
     }
 }
 ```
