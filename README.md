@@ -26,28 +26,36 @@ _google-services.json_ is under the **/app** folder, if not, download it from Fi
 Dependencies are added.
 
 _<root>/build.gradle_
-```
+```groovy
 buildscript {
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.google.gms:google-services:4.3.3'
     }
 }
 ```
 
-```
+_<root>/app/build.gradle_
+```groovy
 dependencies {
     ...
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-messaging:20.1.3'
 
 }
 apply plugin: 'com.google.gms.google-services'
 ```
 
+_<root>/app/proguard-rules.pro_
+```proguard
+-keep public class com.google.firebase.messaging.FirebaseMessagingService {
+  public *;
+}
+```
 
 ### 3. Implement AppsFlyer SDK
-<root>/build.gradle
-```
+
+_<root>/build.gradle_
+```groovy
 allprojects {
     repositories {
         mavenCentral()
@@ -56,40 +64,84 @@ allprojects {
     }
 }
 ```
-<root>/app/build.gradle
-```
+
+_<root>/app/build.gradle_
+```groovy
 dependencies {
-    ...
-    implementation 'com.appsflyer:af-android-sdk:4.8.18@aar'
-    implementation 'com.android.installreferrer:installreferrer:1.0'
+    implementation 'com.appsflyer:af-android-sdk:5.2.0@aar'
 }
 ```
 
-<root>/app/src/main/Path/To/MyApplication.java
+_<root>/app/proguard-rules.pro_
+```proguard
+-keep class com.appsflyer.** { *; }
+-dontwarn com.appsflyer.**
 ```
-        AppsFlyerLib.getInstance().init(BuildConfig.AF_DEV_KEY, new SimpleAppsFlyerConversionListener(), this);
+
+_<root>/app/src/main/Path/To/MyApplication.java_
+```java
+public class MyApplication extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AppsFlyerLib.getInstance().init("<YourAppsFlyerDevKey>", implAppsFlyerConversionListener, this);
         AppsFlyerLib.getInstance().startTracking(this);
+    }
+}
+```
+
+_<root>AndroidManifest.xml_
+```xml
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        ...
+    </application>
 ```
 
 For more details, Refer to https://support.appsflyer.com/hc/en-us/articles/207032126-AppsFlyer-SDK-Integration-Android
 
 ### 4. Add com.appsflyer.FirebaseInstanceIdListener to AndroidManifest.xml
+#### 4-A. If first use Firebase for AppsFlyer uninstall measurement
 
+    If a developer integrates FCM for the sole purpose of measurement uninstalls with AppsFlyer, they can make use of the appsFlyer.FirebaseMessagingServiceListener service, included in our SDK.
+    This is done by adding the service to the AndroidManifest.xml:
+
+_<root>AndroidManifest.xml_
+```xml
+      <service android:name="com.appsflyer.FirebaseMessagingServiceListener">
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+        </intent-filter>
+      </service>
 ```
-        <service android:name="com.appsflyer.FirebaseInstanceIdListener">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-```
+#### 4-B. If app is already using Firebase Messaging Service
 
+_<root>/Path/To/YourFirebaseMessagingService_
+```java
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    @Override
+    public void onNewToken(@NonNull String s) {
+        super.onNewToken(s);
+        // Sending new token to AppsFlyer
+        AppsFlyerLib.getInstance().updateServerUninstallToken(getApplicationContext(), s);
+    }
 
-### 5. Enable Uninstall Tracking by Sender ID.
+    @Override
+    public void onMessageReceived(RemoteMessage remoteMessage) {
+        if(remoteMessage.getData().containsKey("af-uinstall-tracking")){
+            return;
+        } else {
+             // handleNotification(remoteMessage);
+        }
+    }
+}
 
-```
-        AppsFlyerLib.getInstance().init(BuildConfig.AF_DEV_KEY, new SimpleAppsFlyerConversionListener(), this);
-        AppsFlyerLib.getInstance().enableUninstallTracking(BuildConfig.SENDER_ID);
-        AppsFlyerLib.getInstance().startTracking(this);
 ```
 
 
